@@ -32,12 +32,13 @@
 
 /* _____________ Your Code Here _____________ */
 
-type MyPick<T, K> = {
+type MyPick<T, K extends keyof T> = {
   [Property in keyof T as Property extends K ? Property : never]: T[Property]
 }
 
 type X = MyPick<Todo, 'title'>
 type Y = MyPick<Todo, 'title' | 'completed'>
+// @ts-expect-error
 type Z = MyPick<Todo, 'title' | 'completed' | 'invalid'>
 
 /* _____________ Test Cases _____________ */
