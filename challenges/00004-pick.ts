@@ -32,8 +32,13 @@
 
 /* _____________ Your Code Here _____________ */
 
-type MyPick<T, K> = any
+type MyPick<T, K> = {
+  [Property in keyof T as Property extends K ? Property : never]: T[Property]
+}
 
+type X = MyPick<Todo, 'title'>
+type Y = MyPick<Todo, 'title' | 'completed'>
+type Z = MyPick<Todo, 'title' | 'completed' | 'invalid'>
 
 /* _____________ Test Cases _____________ */
 import type { Equal, Expect } from '@type-challenges/utils'
