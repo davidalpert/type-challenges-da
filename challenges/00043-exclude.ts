@@ -21,8 +21,15 @@
 
 /* _____________ Your Code Here _____________ */
 
-type MyExclude<T, U> = any
+// Distributive Conditional Types: https://www.typescriptlang.org/docs/handbook/2/conditional-types.html#distributive-conditional-types
+// When conditional types act on a generic type, they become distributive when given a union type.
+// the following type definition, when union types, is distributed across those unions
 
+type MyExclude<T, U> =
+  T extends U ? never : T
+
+type X = MyExclude<'a' | 'b' | 'c', 'a'> 
+type Y = MyExclude<'a' | 'b' | 'c', 'a' | 'b'>
 
 /* _____________ Test Cases _____________ */
 import type { Equal, Expect } from '@type-challenges/utils'
