@@ -23,8 +23,24 @@
 
 /* _____________ Your Code Here _____________ */
 
-type MyAwaited<T> = any
+// not sure how to match the object with { then: { onfulfilled: ...}}
+// borrowed Thenable<T> from: https://github.com/type-challenges/type-challenges/issues/18837
+type Thenable<T> = {
+  then: (onfulfilled: (arg: T) => any) => any;
+}
 
+type MyAwaited<T extends Promise<unknown> | Thenable<unknown>> =
+  T extends Promise<infer U>
+  ? U extends Promise<any>
+    ? MyAwaited<U>
+    : U
+  : T extends Thenable<infer U>
+    ? U
+    : never
+
+type A = MyAwaited<X>
+type B = MyAwaited<Z>
+type C = MyAwaited<T>
 
 /* _____________ Test Cases _____________ */
 import type { Equal, Expect } from '@type-challenges/utils'
