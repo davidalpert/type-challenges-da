@@ -23,8 +23,13 @@
 
 /* _____________ Your Code Here _____________ */
 
-type Length<T> = any
+type Length<T extends readonly any[]> =
+  T extends readonly any[]
+  ? T['length']
+  : 0
 
+type A = typeof tesla
+type X = Length<typeof tesla>
 
 /* _____________ Test Cases _____________ */
 import type { Equal, Expect } from '@type-challenges/utils'
